@@ -13,7 +13,7 @@
     // NCMB アクセスの準備
     let ncmb = new NCMB(appKey, clientKey);
     // 本アプリで使うクラスの指定。const は定数の宣言。変更できない変数と思えば良い。
-    const db = "m";
+    const db = "Artifact";
 
     function fetchAll() {
       let TestDataClass = ncmb.DataStore(db);
@@ -45,14 +45,15 @@
 
     function showResults(results) {
       // テーブルのヘッダを生成
-      let msg = "<table><tr><th>name</th><th>Lvl</th><th>attack</th><th>defence</th></tr>";
+      let msg = "<table><tr><th>名前</th><th>Lv</th><th>攻撃</th><th>会心率</th><th>会心ダメ</th></tr>";
       for (let i = 0; i < results.length; i++) {
         // 各データを収めた表の列を生成
         msg += "<tr>";
         msg += "<td>" + results[i].name + "</td>";
-        msg += "<td class='num'>" + results[i].level + "</td>";
+        msg += "<td class='num'>" + results[i].Level + "</td>";
         msg += "<td class='num'>" + results[i].attack + "</td>";
-        msg += "<td class='num'>" + results[i].defence + "</td>";
+        msg += "<td class='num'>" + results[i].Rate + "</td>";
+        msg += "<td class='num'>" + results[i].DMG + "</td>";
         msg += "</tr>";
       }
       // テーブルのテイラを生成
@@ -63,22 +64,28 @@
 </head>
 
 <body>
-  <h1>mBaaS search</h1>
+  <h1>聖遺物スコアチェッカー</h1>
   <div>
-    <label for="name">name:</label>
-    <input id="name" type="text" placeholder="monster name">
+    <label for="name">聖遺物:</label>
+    <input id="name" type="text" placeholder="聖遺物種類">
   </div>
   <div>
-    <label for="level">level:</label>
-    <input id="level" type="number" placeholder="monster level">
+    <label for="level">換算</label>
+    <select id="level"placeholder="monster level">
+        <option value = "攻撃">攻撃</option>
+        <option value = "HP">HP</option>
+        <option value = "防御">防御</option>
+            </select>
   </div>
   <div id="button">
-    <button class="btn" onclick="fetchAll()">Fetch All</button>
-    <button class="btn"onclick="searchName()">Name</button>
+    <button class="btn" onclick="fetchAll()">表示</button>
+    <button class="btn"onclick="searchName()">種類</button>
+    <button class="btn"onclick="">スコア</button>
     <br>
-    <button class="btn"onclick="searchLevelLt()">Level &lt;</button>
-    <button class="btn"onclick="searchLevel()">Level</button>
-    <button class="btn"onclick="searchLevelLt()">Level &gt;</button>
+    <button class="btn"onclick="searchLevelLt()">Lv &lt;</button>
+    <button class="btn"onclick="searchLevel()">Lv</button>
+    <button class="btn"onclick="searchLevelLt()">Lv &gt;</button>
+    
   </div>
   <div id="message">message area</div>
 </body>
