@@ -15,117 +15,114 @@
         <link rel="stylesheet" href="css/style.css" />
         <script src="keys.js"></script>
         <script>
-                // NCMB アクセスの準備
-                let ncmb = new NCMB(appKey, clientKey);
-                // 本アプリで使うクラスの指定。const は定数の宣言。変更できない変数と思えば良い。
-                const db = "Artifact";
+                    // NCMB アクセスの準備
+                    let ncmb = new NCMB(appKey, clientKey);
+                    // 本アプリで使うクラスの指定。const は定数の宣言。変更できない変数と思えば良い。
+                    const db = "Artifact";
 
-                function fetchAll() {
-                  let TestDataClass = ncmb.DataStore(db);
-                  TestDataClass.order("name", false).fetchAll()
-                    .then(function(results) {
-                      showResults(results);
-                    })
-                }
-                function searchName() {
-                    let name = $("#name").val();
-                    let TestDataClass = ncmb.DataStore(db);
-                    TestDataClass
-                    .equalTo("name", name)
-                    .fetchAll()
-                    .then(function(results) {
-                        showResults(results);
+                    function fetchAll() {
+                      let TestDataClass = ncmb.DataStore(db);
+                      TestDataClass.order("name", false).fetchAll()
+                        .then(function(results) {
+                          showResults(results);
                         })
                     }
-
-                    function searchLevelLt() {
-                            let level = parseInt($("#level").val());
-                    let TestDataClass = ncmb.DataStore(db);
-                    TestDataClass
-                    .equalTo("level", level)
-                    .fetchAll()
-                    .then(function(results) {
-                        showResults(results);
-                        })
-                    }
-
-                function searchLevel() {
-                    let level = parseInt($("#level").val());
-                    let TestDataClass = ncmb.DataStore(db);
-                    TestDataClass
-                    .equalTo("level", level)
-                    .fetchAll()
-                    .then(function(results) {
-                        showResults(results);
-                        })
-                    }
-
-                    function searchLevelgt() {
-                        let level = parseInt($("#level").val());
+                    function searchName() {
+                        let name = $("#name").val();
                         let TestDataClass = ncmb.DataStore(db);
                         TestDataClass
-                        .equalTo("level", level)
+                        .equalTo("name", name)
                         .fetchAll()
                         .then(function(results) {
                             showResults(results);
                             })
                         }
 
-                function showResults(results) {
-                  // テーブルのヘッダを生成
-                  let msg = "<table><tr><th>名前</th><th>Lv</th><th>攻撃</th><th>会心率</th><th>会心ダメ</th></tr>";
-                  for (let i = 0; i < results.length; i++) {
-                    // 各データを収めた表の列を生成
-                    msg += "<tr>";
-                    msg += "<td>" + results[i].name + "</td>";
-                    msg += "<td class='num'>" + results[i].Level + "</td>";
-                    msg += "<td class='num'>" + results[i].attack + "</td>";
-                    msg += "<td class='num'>" + results[i].Rate + "</td>";
-                    msg += "<td class='num'>" + results[i].DMG + "</td>";
-                    msg += "</tr>";
-                  }
-                  // テーブルのテイラを生成
-                  msg += "</table>";
-                  $("#message").html(msg);
-                }
+                        function searchLevelLt() {
+                            let TestDataClass = ncmb.DataStore(db);
+                            TestDataClass.order("Level").fetchAll()
+                            .then(function(results) {
+                                showResults(results);
+                                })
+                            }
 
-            function calculateScore(results) {
-                let msg = "<table><tr><th>名前</th><th>Lv</th><th>攻撃</th><th>会心率</th><th>会心ダメ</th><th></th><th>スコア</th></tr>";
-                for (let i = 0; i < results.length; i++) {
-                    msg += "<tr>";
-                    msg += "<td>" + results[i].name + "</td>";
-                    msg += "<td class='num'>" + results[i].Level + "</td>";
-                    msg += "<td class='num'>" + results[i].attack + "</td>";
-                    msg += "<td class='num'>" + results[i].Rate + "</td>";
-                    msg += "<td class='num'>" + results[i].DMG + "</td>";
+                        function searchLevelGt() {
+                            let TestDataClass = ncmb.DataStore(db);
+                            TestDataClass.order("Level", true).fetchAll()
+                            .then(function(results) {
+                                showResults(results);
+                            });
+                        }
 
-                    let score;
+                        function searchattackLt() {
+                            let TestDataClass = ncmb.DataStore(db);
+                            TestDataClass.order("attack").fetchAll()
+                            .then(function(results) {
+                                showResults(results);
+                                })
+                            }
 
-                    if ($("#level").val() === "率ダメ") {
-                        score = results[i].Rate * 2 + results[i].DMG;
-                    } else if ($("#level").val() === "攻撃") {
-                        score = results[i].Rate * 2 + results[i].DMG + results[i].attack;
-                    } else {
-                        // デフォルトの計算方法
-                        score = results[i].Rate * 2 + results[i].DMG;
+                        function searchattackGt() {
+                            let TestDataClass = ncmb.DataStore(db);
+                            TestDataClass.order("attack", true).fetchAll()
+                            .then(function(results) {
+                                showResults(results);
+                            });
+                        }
+
+                    function showResults(results) {
+                      let msg = "<table><tr><th>名前</th><th>Lv</th><th>攻撃</th><th>会心率</th><th>会心ダメ</th></tr>";
+                      for (let i = 0; i < results.length; i++) {
+                        msg += "<tr>";
+                        msg += "<td>" + results[i].name + "</td>";
+                        msg += "<td class='num'>" + results[i].Level + "</td>";
+                        msg += "<td class='num'>" + results[i].attack + "</td>";
+                        msg += "<td class='num'>" + results[i].Rate + "</td>";
+                        msg += "<td class='num'>" + results[i].DMG + "</td>";
+                        msg += "</tr>";
+                      }
+                      // テーブルのテイラを生成
+                      msg += "</table>";
+                      $("#message").html(msg);
                     }
 
-                    msg += "<td></td>";
-                    msg += "<td class='num'>" + score + "</td>";
+                function calculateScore(results) {
+                    let msg = "<table><tr><th>名前</th><th>Lv</th><th>攻撃</th><th>会心率</th><th>会心ダメ</th><th></th><th>スコア</th></tr>";
+                    for (let i = 0; i < results.length; i++) {
+                        msg += "<tr>";
+                        msg += "<td>" + results[i].name + "</td>";
+                        msg += "<td class='num'>" + results[i].Level + "</td>";
+                        msg += "<td class='num'>" + results[i].attack + "</td>";
+                        msg += "<td class='num'>" + results[i].Rate + "</td>";
+                        msg += "<td class='num'>" + results[i].DMG + "</td>";
 
-                    msg += "</tr>";
+                        let score;
+
+                        if ($("#level").val() === "率ダメ") {
+                            score = results[i].Rate * 2 + results[i].DMG;
+                        } else if ($("#level").val() === "攻撃") {
+                            score = results[i].Rate * 2 + results[i].DMG + results[i].attack;
+                        } else {
+                            // デフォルトの計算方法
+                            score = results[i].Rate * 2 + results[i].DMG;
+                        }
+
+                        msg += "<td></td>";
+                        msg += "<td class='num'>" + score + "</td>";
+
+                        msg += "</tr>";
+                    }
+                    msg += "</table>";
+                    $("#message").html(msg);
                 }
-                msg += "</table>";
-                $("#message").html(msg);
-            }
 
-            function calculateAndShowScore() {
-                let TestDataClass = ncmb.DataStore(db);
-                TestDataClass.fetchAll()
-                    .then(function(results) {
-                        calculateScore(results);
-                    });
-            }
+                function calculateAndShowScore() {
+                    let TestDataClass = ncmb.DataStore(db);
+                    TestDataClass.fetchAll()
+                        .then(function(results) {
+                            calculateScore(results);
+                        });
+                }
         </script>
     </head>
 
@@ -146,10 +143,18 @@
             <button class="btn" onclick="fetchAll()">表示</button>
             <button class="btn" onclick="searchName()">検索</button>
             <button class="btn" onclick="calculateAndShowScore()">スコア</button>
-            <br />
-            <button class="btn" onclick="searchLevelLt()">Lv &lt;</button>
-            <button class="btn" onclick="searchLevel()">Lv</button>
-            <button class="btn" onclick="searchLevelLt()">Lv &gt;</button>
+            <br/>
+            <button class="btn" onclick="searchLevelGt()">attack up</button>
+            <button class="btn" onclick="searchLevelLt()">attack down</button>
+            <br/>
+            <button class="btn" onclick="searchLevelGt()">rate up</button>
+            <button class="btn" onclick="searchLevelLt()">rate down</button>
+            <br/>
+            <button class="btn" onclick="searchLevelGt()">DMG up</button>
+            <button class="btn" onclick="searchLevelLt()">DMG down</button>
+            <br/>
+            <button class="btn" onclick="searchLevelGt()">Lv up</button>
+            <button class="btn" onclick="searchLevelLt()">Lv down</button>
         </div>
         <div id="message">message area</div>
     </body>
