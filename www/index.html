@@ -70,6 +70,22 @@
                             });
                         }
 
+                        function searchrateLt() {
+                            let TestDataClass = ncmb.DataStore(db);
+                            TestDataClass.order("Rate").fetchAll()
+                            .then(function(results) {
+                                showResults(results);
+                                })
+                            }
+
+                        function searchrateGt() {
+                            let TestDataClass = ncmb.DataStore(db);
+                            TestDataClass.order("Rate", true).fetchAll()
+                            .then(function(results) {
+                                showResults(results);
+                            });
+                        }
+
                     function showResults(results) {
                       let msg = "<table><tr><th>名前</th><th>Lv</th><th>攻撃</th><th>会心率</th><th>会心ダメ</th></tr>";
                       for (let i = 0; i < results.length; i++) {
@@ -147,11 +163,11 @@
             <button class="btn" onclick="searchattackGt()">attack up</button>
             <button class="btn" onclick="searchattackLt()">attack down</button>
             <br/>
-            <button class="btn" onclick="searchLevelGt()">rate up</button>
-            <button class="btn" onclick="searchLevelLt()">rate down</button>
+            <button class="btn" onclick="searchrateGt()">rate up</button>
+            <button class="btn" onclick="searchrateLt()">rate down</button>
             <br/>
-            <button class="btn" onclick="searchLevelGt()">DMG up</button>
-            <button class="btn" onclick="searchLevelLt()">DMG down</button>
+            <button class="btn" onclick="searchDMGGt()">DMG up</button>
+            <button class="btn" onclick="searchDMGLt()">DMG down</button>
             <br/>
             <button class="btn" onclick="searchLevelGt()">Lv up</button>
             <button class="btn" onclick="searchLevelLt()">Lv down</button>
