@@ -86,6 +86,22 @@
                             });
                         }
 
+                        function searchDMGLt() {
+                            let TestDataClass = ncmb.DataStore(db);
+                            TestDataClass.order("DMG").fetchAll()
+                            .then(function(results) {
+                                showResults(results);
+                                })
+                            }
+
+                        function searchDMGGt() {
+                            let TestDataClass = ncmb.DataStore(db);
+                            TestDataClass.order("DMG", true).fetchAll()
+                            .then(function(results) {
+                                showResults(results);
+                            });
+                        }
+
                     function showResults(results) {
                       let msg = "<table><tr><th>名前</th><th>Lv</th><th>攻撃</th><th>会心率</th><th>会心ダメ</th></tr>";
                       for (let i = 0; i < results.length; i++) {
@@ -160,6 +176,9 @@
             <button class="btn" onclick="searchName()">検索</button>
             <button class="btn" onclick="calculateAndShowScore()">スコア</button>
             <br/>
+            <button class="btn" onclick="searchLevelGt()">Lv up</button>
+            <button class="btn" onclick="searchLevelLt()">Lv down</button>
+            <br/>
             <button class="btn" onclick="searchattackGt()">attack up</button>
             <button class="btn" onclick="searchattackLt()">attack down</button>
             <br/>
@@ -168,9 +187,6 @@
             <br/>
             <button class="btn" onclick="searchDMGGt()">DMG up</button>
             <button class="btn" onclick="searchDMGLt()">DMG down</button>
-            <br/>
-            <button class="btn" onclick="searchLevelGt()">Lv up</button>
-            <button class="btn" onclick="searchLevelLt()">Lv down</button>
         </div>
         <div id="message">message area</div>
     </body>
